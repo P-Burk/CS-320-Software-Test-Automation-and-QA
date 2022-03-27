@@ -21,23 +21,12 @@ public class Task {
         //creates unique taskID
         this.taskID = String.valueOf(idGenerator.getAndIncrement());
 
-        //name setting logic
-        if (passedName == null || passedName.isBlank()) {
-            this.taskName = "noName";
-        } else if (passedName.length() > 20) {
-            this.taskName = passedName.substring(0, 20);
-        } else {
-            this.taskName = passedName;
-        }
+        //set the task name
+        this.taskName = nameLogic(passedName);
 
-        //description setting logic
-        if (passedDesc == null || passedDesc.isBlank()) {
-            this.taskDesc = "noName";
-        } else if (passedDesc.length() > 20) {
-            this.taskDesc = passedDesc.substring(0, 50);
-        } else {
-            this.taskDesc = passedDesc;
-        }
+        //set the task description
+        this.taskDesc = descLogic(passedDesc);
+
     }
 
     //SETTERS
@@ -46,13 +35,7 @@ public class Task {
      * @param taskName this is the task's name.
      */
     public void setTaskName(String taskName) {
-        if (taskName == null || taskName.isBlank()) {
-            this.taskName = "noName";
-        } else if (taskName.length() > 20) {
-            this.taskName = taskName.substring(0, 20);
-        } else {
-            this.taskName = taskName;
-        }
+        this.taskName = nameLogic(taskName);
     }
 
     /**
@@ -60,13 +43,29 @@ public class Task {
      * @param taskDesc this is the task's description.
      */
     public void setTaskDesc(String taskDesc) {
-        if (taskDesc == null || taskDesc.isBlank()) {
-            this.taskDesc = "noName";
-        } else if (taskDesc.length() > 20) {
-            this.taskDesc = taskDesc.substring(0, 50);
-        } else {
-            this.taskDesc = taskDesc;
+        this.taskDesc = descLogic(taskDesc);
+    }
+
+    //logic for the task name
+    //can't be null, can't be blank, can't be > 20 characters
+    private String nameLogic(String taskName) {
+        if (taskName == null || taskName.isBlank()) {
+            return "noName";
+        } else if (taskName.length() > 20) {
+            return taskName.substring(0, 20);
         }
+        return taskName;
+    }
+
+    //logic for the task description
+    //can't be null, can't be blank, can't be > 50 characters
+    private String descLogic(String taskDesc) {
+        if (taskDesc == null || taskDesc.isBlank()) {
+            return "noDesc";
+        } else if (taskDesc.length() > 50) {
+            return taskDesc.substring(0, 50);
+        }
+        return taskDesc;
     }
 
     //GETTERS
