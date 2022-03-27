@@ -1,11 +1,7 @@
 package Task;
 
 import org.junit.jupiter.api.*;
-import sun.misc.Unsafe;
-
 import java.util.ArrayList;
-import java.lang.reflect.*;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 

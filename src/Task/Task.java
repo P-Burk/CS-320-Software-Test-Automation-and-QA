@@ -1,3 +1,11 @@
+/*
+ * Class: CS-320-T4514 Software Test Automation & QA
+ * Instructor: Dr. Angel Cross, DIT, MMIS
+ * Assignment: 4-1 Milestone: Task Service
+ * Student: Preston Burkhardt
+ * Date: 26 March 2022
+ */
+
 package Task;
 
 import java.util.concurrent.atomic.AtomicLong;
