@@ -81,16 +81,6 @@ public class Appointment {
 
     //HELPER METHODS
     /**
-     * Strips only the date from a Date object and returns a string in the format of MM/dd/yyyy.
-     * @param passedDate this is a Date object.
-     * @return string of the date in the format MM/dd/yyyy.
-     */
-    private String dateToString(Date passedDate) {
-        SimpleDateFormat dateOnly = new SimpleDateFormat("MM/dd/yyyy");
-        return dateOnly.format(passedDate);
-    }
-
-    /**
      * Converts a string version of a date in the format of MM/dd/yyyy to a Date object.
      * @param passedDateString this is the date string.
      * @return Date object
