@@ -43,4 +43,28 @@ public class AppointmentService {
         }
         System.out.println("Appointment not found.");
     }
+
+    /**
+     * Returns an appointment by the appointment's index in the apptServiceList array list.
+     * USED FOR TESTING PURPOSES.
+     *
+     * @param indexNum this is the index number of the task.
+     * @return returns the appointment object
+     */
+    protected Appointment getApptByIndex(int indexNum) {
+        return apptServiceList.get(indexNum);
+    }
+
+    /**
+     * Returns total number of appointments in the apptServiceList array list.
+     * USED FOR TESTING PURPOSES.
+     * @return returns the count of appointments.
+     */
+    protected int getApptCount() {
+        int count = 0;
+        for (Appointment appt : apptServiceList) {
+            count++;
+        }
+        return count;
+    }
 }
