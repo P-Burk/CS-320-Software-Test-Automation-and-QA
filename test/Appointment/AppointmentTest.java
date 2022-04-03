@@ -8,7 +8,7 @@
 
 package Appointment;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,7 +16,9 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AppointmentTest {
+    private Appointment newApt;
 
     //HELPER FUNCTION
     /**
@@ -29,11 +31,30 @@ class AppointmentTest {
         return dateOnly.format(passedDate);
     }
 
+    //SETUP AND TEARDOWN FUNCTIONS
+    @BeforeEach
+    void setUp() throws ParseException {
+        newApt = new Appointment("04/25/2022", "This is a description");
+    }
+
+    @AfterEach
+    void tearDown() {
+        newApt = null;
+    }
+
     @Test
-    void setAppointmentDate() throws ParseException {
-        Appointment newApt = new Appointment("04/25/2022", "This is a description");
+    @DisplayName("Appointment constructor check.")
+    void apptConstructorTest() {
         String compareDate = dateToString(newApt.getAppointmentDate());
         assertEquals("04/25/2022", compareDate, "Date was not constructed correctly.");
+        assertEquals("This is a description", newApt.getAppointmentDesc(),
+                "Description was not constructed correctly.");
+    }
+
+    @Test
+    @DisplayName("Appointment date setter check.")
+    void setAppointmentDate() throws ParseException {
+        String compareDate = dateToString(newApt.getAppointmentDate());
 
         newApt.setAppointmentDate("01/01/2000");
         Date newDate = new Date();
@@ -53,18 +74,37 @@ class AppointmentTest {
     }
 
     @Test
+    @DisplayName("Appointment description setter check.")
     void setAppointmentDesc() {
+        newApt.setAppointmentDesc("This is a very very super extremely looooooooooong description.");
+        assertEquals("This is a very very super extremely looooooooooong", newApt.getAppointmentDesc(),
+                "Appointment description max character failure.");
+
+        newApt.setAppointmentDesc(null);
+        assertEquals("noDesc", newApt.getAppointmentDesc(), "Appointment description NULL failure.");
+
+        newApt.setAppointmentDesc("");
+        assertEquals("noDesc", newApt.getAppointmentDesc(), "Appointment description blank failure.");
     }
 
     @Test
+    @Order(1)
+    @DisplayName("Appointment ID getter check.")
     void getAppointmentID() {
+        assertEquals("0", newApt.getAppointmentID(), "Appointment ID getter failure.");
     }
 
     @Test
+    @DisplayName("Appointment date getter check.")
     void getAppointmentDate() {
+        assertEquals("04/25/2022", dateToString(newApt.getAppointmentDate()),
+                "Appointment date getter failure.");
     }
 
     @Test
+    @DisplayName("Appointment description getter check.")
     void getAppointmentDesc() {
+        assertEquals("This is a description", newApt.getAppointmentDesc(),
+                "Appointment description getter failure.");
     }
 }
