@@ -1,45 +1,40 @@
 package Task;
 
 import org.junit.jupiter.api.*;
-import java.util.ArrayList;
+
+import java.util.concurrent.atomic.AtomicLong;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TaskServiceTest {
+    private TaskService newService;
+    private String taskID1;
+    private String taskID2;
 
-    //These next three parts are used so that you don't have to make a new task service and fill it
-    //with testing tasks for every single JUnit test.
-
-    //Part 1
-    //initialize test list and a task service.
-    private final ArrayList<TaskService> testList = new ArrayList<>();
-    TaskService newTaskService = new TaskService();
-
-    //Part 2
-    //Adds two tasks to the task service, then adds the service to the test list
     @BeforeEach
-    public void startService() {
-        newTaskService.addNewTask("1st Task", "This is the first task.");
-        newTaskService.addNewTask("2nd Task", "This is the second task.");
-        testList.add(newTaskService);
+    void setUp() {
+        newService = new TaskService();
+        newService.addNewTask("First Task", "This is a task description.");
+        taskID1 = newService.getTaskByIndex(0).getTaskID();
+        newService.addNewTask("Second Task", "This is also a description.");
+        taskID2 = newService.getTaskByIndex(1).getTaskID();
     }
 
-    //Part 3
-    //delete the contact service after every test
     @AfterEach
-    public void clearService() {
-        testList.clear();
+    void tearDown() {
+        newService = null;
     }
 
     @Test
     @Order(1)
     @DisplayName("Check the adding of tasks to task service.")
     void addNewTask() {
-        assertEquals(testList.get(0).getTaskByID("0"), testList.get(0).getTaskByIndex(0),
+        assertEquals(newService.getTaskByID(taskID1), newService.getTaskByIndex(0),
                 "Task not added correctly.");
-        assertEquals(testList.get(0).getTaskByID("1"), testList.get(0).getTaskByIndex(1),
+        assertEquals(newService.getTaskByID(taskID2), newService.getTaskByIndex(1),
                 "Task not added correctly.");
     }
 
@@ -48,8 +43,8 @@ class TaskServiceTest {
     @Order(2)
     @DisplayName("Check the updating of task description of tasks to task service.")
     void updateTaskDesc() {
-        testList.get(0).updateTaskDesc("2", "Updated Description");
-        assertEquals("Updated Description", testList.get(0).getTaskByID("2").getTaskDesc(),
+        newService.updateTaskDesc(taskID1, "Updated Description");
+        assertEquals("Updated Description", newService.getTaskByID(taskID1).getTaskDesc(),
                 "Task description not updated correctly.");
     }
 
@@ -57,8 +52,8 @@ class TaskServiceTest {
     @Order(3)
     @DisplayName("Check the updating of task name of tasks to task service.")
     void updateTaskName() {
-        testList.get(0).updateTaskName("4", "Updated Name");
-        assertEquals("Updated Name", testList.get(0).getTaskByID("4").getTaskName(),
+        newService.updateTaskName(taskID1, "Updated Name");
+        assertEquals("Updated Name", newService.getTaskByID(taskID1).getTaskName(),
                 "Task name not updated correctly.");
     }
 
@@ -66,7 +61,7 @@ class TaskServiceTest {
     @Order(4)
     @DisplayName("Check the deleting of a task from the task service.")
     void deleteTask() {
-        testList.get(0).deleteTask("6");
-        assertNull(testList.get(0).getTaskByID("6"));
+        newService.deleteTask(taskID1);
+        assertNull(newService.getTaskByID(taskID1));
     }
 }
