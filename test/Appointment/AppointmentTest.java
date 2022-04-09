@@ -9,7 +9,6 @@
 package Appointment;
 
 import org.junit.jupiter.api.*;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

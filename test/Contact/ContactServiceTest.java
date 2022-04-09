@@ -2,44 +2,53 @@ package Contact;
 
 import org.junit.jupiter.api.*;
 
-import java.util.ArrayList;
-
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ContactServiceTest {
+    private ContactService newContactService;
+    private String contactID1;
+    private String contactID2;
 
-    //These next three parts are used so that you don't have to make a new contact service and fill it
-    //with testing contacts for every single JUnit test.
+    //used for testing console print statements
+    private final ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+    private final PrintStream originalPrint = System.out;
 
-    //Part 1
-    //initialize test list and a contact service.
-    private final ArrayList<ContactService> testList = new ArrayList<>();
-    ContactService newContactService = new ContactService();
-
-    //Part 2
-    //Adds two contacts to the contact service, then adds the service to the test list
+    //SETUP
     @BeforeEach
-    public void startService() {
+    void startService() {
+        newContactService = new ContactService();
         newContactService.addNewContact("John", "Snow", "1112223333", "1010 Binary St.");
+        contactID1 = newContactService.getContactByIndex(0).getContactID();
         newContactService.addNewContact("Arya", "Stark", "0009998888", "123 Fake Ln.");
-        testList.add(newContactService);
+        contactID2 = newContactService.getContactByIndex(1).getContactID();
     }
 
-    //Part 3
-    //delete the contact service after every test
+    @BeforeEach
+    void printStreamSetUp() {
+        System.setOut(new PrintStream(outStream));
+    }
+
+    //TEAR DOWN
     @AfterEach
-    public void clearService() {
-        testList.clear();
+    void printSteamTearDown() {
+        System.setOut(originalPrint);
+    }
+
+    @AfterEach
+    void clearService() {
+        newContactService = null;
     }
 
     @Test
     @Order(1)
     @DisplayName("Check the adding of contacts to contact service.")
     void addNewContact() {
-        assertEquals(testList.get(0).getContactByID("0"), testList.get(0).getContactByIndex(0),
+        assertEquals(newContactService.getContactByID(contactID1), newContactService.getContactByIndex(0),
                 "Contact not added correctly.");
-        assertEquals(testList.get(0).getContactByID("1"), testList.get(0).getContactByIndex(1),
+        assertEquals(newContactService.getContactByID(contactID2), newContactService.getContactByIndex(1),
                 "Contact not added correctly.");
     }
 
@@ -47,8 +56,10 @@ class ContactServiceTest {
     @Order(2)
     @DisplayName("Check the deletion of contacts from contact service.")
     void deleteContact() {
-        testList.get(0).deleteContact("0");
-        assertNull(testList.get(0).getContactByID("0"), "Contact not deleted correctly.");
+        newContactService.deleteContact(contactID1);
+        assertNull(newContactService.getContactByID(contactID1), "Contact not deleted correctly.");
+        newContactService.deleteContact("999");
+        assertEquals("Contact not found.\r\n", outStream.toString(), "Contact not found print fail.");
     }
 
 
@@ -56,37 +67,57 @@ class ContactServiceTest {
     @Order(3)
     @DisplayName("Check first name updater.")
     void updateFirstName() {
-        testList.get(0).updateFirstName("4", "Tom");
-        assertEquals("Tom", testList.get(0).getContactByID("4").getFirstName(),
+        newContactService.updateFirstName(contactID1, "Tom");
+        assertEquals("Tom", newContactService.getContactByID(contactID1).getFirstName(),
                 "First name not updated correctly.");
+        newContactService.updateFirstName("999", "TestName");
+        assertEquals("Contact not found.\r\n", outStream.toString(), "Contact not found print fail.");
     }
 
     @Test
     @Order(4)
     @DisplayName("Check last name updater.")
     void updateLastName() {
-        testList.get(0).updateLastName("6", "Stark");
-        assertEquals("Stark", testList.get(0).getContactByID("6").getLastName(),
+        newContactService.updateLastName(contactID1, "Stark");
+        assertEquals("Stark", newContactService.getContactByID(contactID1).getLastName(),
                 "Last name not updated correctly.");
+        newContactService.updateLastName("999", "TestName");
+        assertEquals("Contact not found.\r\n", outStream.toString(), "Contact not found print fail.");
     }
 
     @Test
     @Order(5)
     @DisplayName("Check phone number updater.")
     void updateNumber() {
-        testList.get(0).updateNumber("8", "1234567890");
-        assertEquals("1234567890", testList.get(0).getContactByID("8").getContactNum(),
+        newContactService.updateNumber(contactID1, "1234567890");
+        assertEquals("1234567890", newContactService.getContactByID(contactID1).getContactNum(),
                 "Phone number not updated correctly.");
+        newContactService.updateNumber("999", "1234567890");
+        assertEquals("Contact not found.\r\n", outStream.toString(), "Contact not found print fail.");
     }
 
     @Test
     @Order(6)
     @DisplayName("Check address updater.")
     void updateAddress() {
-        testList.get(0).updateAddress("10", "123 Fake St.");
-        assertEquals("123 Fake St.", testList.get(0).getContactByID("10").getContactAddress(),
+        newContactService.updateAddress(contactID1, "123 Fake St.");
+        assertEquals("123 Fake St.", newContactService.getContactByID(contactID1).getContactAddress(),
                 "Address not updated correctly.");
+        newContactService.updateAddress("999", "No contact with ID 999");
+        assertEquals("Contact not found.\r\n", outStream.toString(), "Contact not found print fail.");
     }
 
-
+    @Test
+    @Order(7)
+    @DisplayName("Check all contacts display.")
+    void displayAllContacts() {
+        newContactService.displayAllContacts();
+        assertEquals(String.format("""
+                ID Number: %s; First Name: John; Last Name: Snow\r
+                Phone #: 1112223333; Address: 1010 Binary St.\r
+                ID Number: %s; First Name: Arya; Last Name: Stark\r
+                Phone #: 0009998888; Address: 123 Fake Ln.\r
+                """, contactID1, contactID2),
+                outStream.toString(), "Printed output fails.");
+    }
 }
