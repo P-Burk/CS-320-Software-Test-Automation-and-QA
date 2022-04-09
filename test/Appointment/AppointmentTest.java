@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class AppointmentTest {
     private Appointment newApt;
+    private String aptID1;
 
     //HELPER FUNCTION
     /**
@@ -35,6 +36,7 @@ class AppointmentTest {
     @BeforeEach
     void setUp() throws ParseException {
         newApt = new Appointment("04/25/2022", "This is a description");
+        aptID1 = newApt.getAppointmentID();
     }
 
     @AfterEach
@@ -91,7 +93,7 @@ class AppointmentTest {
     @Order(1)
     @DisplayName("Appointment ID getter check.")
     void getAppointmentID() {
-        assertEquals("0", newApt.getAppointmentID(), "Appointment ID getter failure.");
+        assertEquals(aptID1, newApt.getAppointmentID(), "Appointment ID getter failure.");
     }
 
     @Test
