@@ -1,18 +1,29 @@
 package Contact;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ContactTest {
+    private Contact aContact;
+    private String contactID1;
+
+    //SET UP
+    @BeforeEach
+    void contactSetUp() {
+        aContact = new Contact("John", "Snow", "1112223333", "1010 Binary St.");
+        contactID1 = aContact.getContactID();
+    }
+
+    //TEAR DOWN
+    @AfterEach
+    void contactTearDown() {
+        aContact = null;
+    }
 
     @Test
     @DisplayName("First name setter. Cannot be NULL. Cannot be > 10 characters.")
     void setFirstName() {
-        Contact aContact = new Contact("John", "Snow", "1112223333", "1010 Binary St.");
         aContact.setFirstName(null);
         assertNotNull(aContact.getFirstName(), "First name is NULL");
         aContact.setFirstName("This Is A Really Looooooong Name");
@@ -22,7 +33,6 @@ class ContactTest {
     @Test
     @DisplayName("Setting last name. Cannot be NULL. Cannot be > 10 characters.")
     void setLastName() {
-        Contact aContact = new Contact("John", "Snow", "1112223333", "1010 Binary St.");
         aContact.setLastName(null);
         assertNotNull(aContact.getLastName(), "Last name is NULL");
         aContact.setLastName("This Is A Really Looooooong Name");
@@ -32,7 +42,6 @@ class ContactTest {
     @Test
     @DisplayName("Setting phone number. Cannot be NULL. Must be exactly 10 characters.")
     void setContactNum() {
-        Contact aContact = new Contact("John", "Snow", "1112223333", "1010 Binary St.");
         aContact.setContactNum(null);
         assertNotNull(aContact.getContactNum(), "Phone number is NULL");
         aContact.setContactNum("1234");
@@ -46,7 +55,6 @@ class ContactTest {
     @Test
     @DisplayName("Setting Address. Cannot be NULL. Cannot be > 30 characters.")
     void setContactAddress() {
-        Contact aContact = new Contact("John", "Snow", "1112223333", "1010 Binary St.");
         aContact.setContactAddress(null);
         assertNotNull(aContact.getContactAddress(), "Address is NULL");
         aContact.setContactAddress("This Is A Really Loooooooooooooooooooooooooooooooooooong Address");
@@ -56,36 +64,31 @@ class ContactTest {
     @Test
     @DisplayName("Getting first name.")
     void getFirstName() {
-        Contact aContact = new Contact("John", "Snow", "1112223333", "1010 Binary St.");
         assertEquals("John", aContact.getFirstName(), "First name not the same.");
     }
 
     @Test
     @DisplayName("Getting last name.")
     void getLastName() {
-        Contact aContact = new Contact("John", "Snow", "1112223333", "1010 Binary St.");
         assertEquals("Snow", aContact.getLastName(), "Last name not the same.");
     }
 
     @Test
     @DisplayName("Getting phone number.")
     void getContactNum() {
-        Contact aContact = new Contact("John", "Snow", "1112223333", "1010 Binary St.");
         assertEquals("1112223333", aContact.getContactNum(), "Phone number not the same.");
     }
 
     @Test
     @DisplayName("Getting address.")
     void getContactAddress() {
-        Contact aContact = new Contact("John", "Snow", "1112223333", "1010 Binary St.");
         assertEquals("1010 Binary St.", aContact.getContactAddress(), "Address not the same.");
     }
 
     @Test
     @DisplayName("Getting contact ID number.")
     void getContactID() {
-        Contact aContact = new Contact("John", "Snow", "1112223333", "1010 Binary St.");
-        assertEquals("14", aContact.getContactID(), "Contact ID number not the same.");
+        assertEquals(contactID1, aContact.getContactID(), "Contact ID number not the same.");
     }
 
     @Test
