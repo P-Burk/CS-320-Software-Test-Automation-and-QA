@@ -58,6 +58,8 @@ class ContactServiceTest {
     void deleteContact() {
         newContactService.deleteContact(contactID1);
         assertNull(newContactService.getContactByID(contactID1), "Contact not deleted correctly.");
+        newContactService.deleteContact("999");
+        assertEquals("Contact not found.\r\n", outStream.toString(), "Contact not found print fail.");
     }
 
 
@@ -68,6 +70,8 @@ class ContactServiceTest {
         newContactService.updateFirstName(contactID1, "Tom");
         assertEquals("Tom", newContactService.getContactByID(contactID1).getFirstName(),
                 "First name not updated correctly.");
+        newContactService.updateFirstName("999", "TestName");
+        assertEquals("Contact not found.\r\n", outStream.toString(), "Contact not found print fail.");
     }
 
     @Test
@@ -77,6 +81,8 @@ class ContactServiceTest {
         newContactService.updateLastName(contactID1, "Stark");
         assertEquals("Stark", newContactService.getContactByID(contactID1).getLastName(),
                 "Last name not updated correctly.");
+        newContactService.updateLastName("999", "TestName");
+        assertEquals("Contact not found.\r\n", outStream.toString(), "Contact not found print fail.");
     }
 
     @Test
@@ -86,6 +92,8 @@ class ContactServiceTest {
         newContactService.updateNumber(contactID1, "1234567890");
         assertEquals("1234567890", newContactService.getContactByID(contactID1).getContactNum(),
                 "Phone number not updated correctly.");
+        newContactService.updateNumber("999", "1234567890");
+        assertEquals("Contact not found.\r\n", outStream.toString(), "Contact not found print fail.");
     }
 
     @Test
@@ -93,10 +101,11 @@ class ContactServiceTest {
     @DisplayName("Check address updater.")
     void updateAddress() {
         newContactService.updateAddress(contactID1, "123 Fake St.");
-        assertEquals("123 Fake St.", newContactService.getContactByID("10").getContactAddress(),
+        assertEquals("123 Fake St.", newContactService.getContactByID(contactID1).getContactAddress(),
                 "Address not updated correctly.");
+        newContactService.updateAddress("999", "No contact with ID 999");
+        assertEquals("Contact not found.\r\n", outStream.toString(), "Contact not found print fail.");
     }
-
 
     @Test
     @Order(7)
