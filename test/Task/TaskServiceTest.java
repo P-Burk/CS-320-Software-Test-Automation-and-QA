@@ -1,9 +1,6 @@
 package Task;
 
 import org.junit.jupiter.api.*;
-
-import java.util.concurrent.atomic.AtomicLong;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
