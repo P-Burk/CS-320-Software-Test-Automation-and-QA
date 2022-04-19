@@ -1,2 +1,10 @@
 # CS-320 Software Test Automation and QA
- 
+
+## • How can I ensure that my code, program, or software is functional and secure?
+In CS-305 (Software Security) we were taught methods for securing our code such as dependency checks, using checksums, and certificate use/generation. In this class we learned methods for testing our code such as static testing and creating unit tests. I plan to combine all of this together when building software in the future in order to ensure that said software is functional and secure. I also plan on learning about more software testing and security tools in order to help build my toolbox so that I have more knowledge than just what we have covered in these classes.
+
+## • How do I interpret user needs and incorporate them into a program?
+I interpret user needs by finding out their end goal for the product. I find that this gives context to a lot of user requirements that may seem vague or lacking detailed information. User needs won’t always be spelled out for me and having an idea of the general direction they wish to go really helps early in the development process. When creating a product for someone, I will tailor my efforts around these needs. Being able to build test cases before beginning development also helps with incorporating user needs into the program. These test cases would be built based on the interpreted user needs. In the end, if the product doesn’t satisfy the user’s needs, then what use is the product? 
+
+## • How do I approach designing software?
+I approach designing software in a piece-by-piece manner. I first get the requirements for the software and what the goal is for the final product. I then break this down into smaller parts with the each of the smaller parts handling one or more of the requirements for the final product. Finally, once all the small parts are completed, I combine them together to make the final product. I find that tackling each smaller portion of the project individually is easier than jumping between different parts throughout the entire process while also ensuring that I meet all the needed requirements from the user.
